@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library - Search & Upload</title>
+    <style>
+        body {
+            background: linear-gradient(to top, #1e3c72, #2a5298);
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding-bottom: 50px;
+        }
+        .logo {
+            margin-top: 20px;
+            max-width: 150px;
+        }
+        
+        /* --- Search Styles --- */
+        .search-container {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .search-bar {
+            padding: 10px;
+            width: 300px;
+            border: none;
+            border-radius: 5px;
+        }
+        .search-button {
+            padding: 10px 20px;
+            background: linear-gradient(45deg,#df4881,#c430d7);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* --- Upload Section Styles --- */
+        .upload-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .upload-container input {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+        .upload-btn {
+            background: #00c851;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .upload-btn:hover {
+            background: #007e33;
+        }
+
+        /* --- Slider Styles --- */
+        .slider-wrapper {
+            margin-bottom: 20px;
+            width: 80%;
+            text-align: center;
+        }
+        .slider-container {
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            width: 100%;
+            scroll-behavior: smooth;
+            padding: 10px 0;
+        }
+        .slider-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        .slider-container::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+        }
+        
+        .slider {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .slider-item {
+            min-width: 150px;
+            max-width: 150px;
+            background: #0061ff;
+            border-radius: 10px;
+            text-align: center;
+            padding: 20px;
+            flex: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 120px;
+            transition: transform 0.3s ease;
+        }
+        .slider-item:hover {
+            transform: scale(1.05);
+        }
+        .slider-item p {
+            margin: 0 0 10px 0;
+            font-weight: bold;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Limits title to 2 lines */
+            -webkit-box-orient: vertical;
+        }
+        .slider-item button {
+            background: linear-gradient(45deg,#df4881,#c430d7);
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            color: white;
+            cursor: pointer;
+            margin-top: auto;
+        }
+        .slider-item button:disabled {
+            background: #888;
+            cursor: not-allowed;
+        }
+        .arrow {
+            cursor: pointer;
+            font-size: 2em;
+            margin: 0 20px;
+            user-select: none;
+            z-index: 10;
+        }
+        .slider-topic {
+            margin-bottom: 10px;
+            font-size: 1.5em;
+            text-align: left;
+            margin-left: 40px;
+        }
+        .home-button {
+            padding: 10px 20px;
+            background: linear-gradient(45deg,#df4881,#c430d7);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <img src="logo.png" alt="Logo" class="logo">
+    
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-bar" placeholder="Search for a book..." onkeyup="filterBooks()">
+        <button class="search-button" onclick="filterBooks()">Search</button>
+    </div>
+
+    <div class="upload-container">
+        <label><strong>Add New Book:</strong></label>
+        <input type="text" id="newBookTitle" placeholder="Enter Book Title">
+        <input type="file" id="newBookFile" accept=".pdf,.epub,.txt,.docx">
+        <button class="upload-btn" onclick="uploadBook()">Upload</button>
+    </div>
+
+    <div class="slider-wrapper">
+        <div class="slider-topic">Popular Books</div>
+        <div class="slider-container" id="slider-container-1">
+            <span class="arrow" onclick="moveSlider(-1, 'slider-container-1')">&lt;</span>
+            <div class="slider" id="slider-1">
+                <div class="slider-item">
+                    <p>Court of Mist and Fury</p>
+                    <button>Read now</button>
+                </div>
+                <div class="slider-item">
+                    <p>A Game of Thrones</p>
+                    <button>Read now</button>
+                </div>
+                <div class="slider-item">
+                    <p>Fifty Shades of Grey</p>
+                    <button>Read now</button>
+                </div>
+                <div class="slider-item">
+                    <p>I Don't Love You Anymore</p>
+                    <button>Read now</button>
+                </div>
+                <div class="slider-item">
+                    <p>Hujan</p>
+                    <button>Read now</button>
+                </div>
+            </div>
+            <span class="arrow" onclick="moveSlider(1, 'slider-container-1')">&gt;</span>
+        </div>
+    </div>
+
+    <div class="slider-wrapper">
+        <div class="slider-topic">New Releases</div>
+        <div class="slider-container" id="slider-container-2">
+            <span class="arrow" onclick="moveSlider(-1, 'slider-container-2')">&lt;</span>
+            <div class="slider" id="slider-2">
+                <div class="slider-item">
+                    <p>Book 1</p>
+                    <button>Read now</button>
+                </div>
+                <div class="slider-item">
+                    <p>Book 2</p>
+                    <button>Read now</button>
+                </div>
+                <div class="slider-item">
+                    <p>Book 3</p>
+                    <button>Read now</button>
+                </div>
+            </div>
+            <span class="arrow" onclick="moveSlider(1, 'slider-container-2')">&gt;</span>
+        </div>
+    </div>
+
+    <button class="home-button" onclick="location.href='../front page/frontpage.html'">Home</button>
+
+    <script>
+        // 0. ON LOAD - RESTORE BOOKS
+        window.onload = function() {
+            loadSavedBooks();
+        };
+
+        // 1. SEARCH FUNCTIONALITY
+        function filterBooks() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toUpperCase();
+            const sliders = document.querySelectorAll('.slider');
+
+            sliders.forEach(slider => {
+                const books = slider.getElementsByClassName('slider-item');
+                for (let i = 0; i < books.length; i++) {
+                    const p = books[i].getElementsByTagName("p")[0];
+                    const txtValue = p.textContent || p.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        books[i].style.display = "flex";
+                    } else {
+                        books[i].style.display = "none";
+                    }
+                }
+            });
+        }
+
+        // 2. UPLOAD FUNCTIONALITY
+        function uploadBook() {
+            const titleInput = document.getElementById('newBookTitle');
+            const fileInput = document.getElementById('newBookFile');
+            const title = titleInput.value.trim();
+
+            if (title === "") {
+                alert("Please enter a book title!");
+                return;
+            }
+            if (fileInput.files.length === 0) {
+                alert("Please select a file to upload!");
+                return;
+            }
+
+            // Create a temporary URL for the file to fix Problem #1
+            const file = fileInput.files[0];
+            const fileURL = URL.createObjectURL(file);
+
+            // Add the book to the screen immediately
+            addBookToDOM(title, fileURL, true);
+
+            // Save the book TITLE to LocalStorage to fix Problem #2
+            saveBookToStorage(title);
+
+            // Clear inputs
+            titleInput.value = "";
+            fileInput.value = "";
+            
+            alert("Book uploaded! (Note: 'Read now' works until you refresh the page)");
+        }
+
+        // Helper: Add visual element to DOM
+        function addBookToDOM(title, url, isNewSession) {
+            const newBookDiv = document.createElement('div');
+            newBookDiv.className = 'slider-item';
+            
+            // Logic for the button
+            let buttonHTML = '';
+            if (isNewSession && url) {
+                // If we just uploaded it, the URL works
+                buttonHTML = `<button onclick="window.open('${url}', '_blank')">Read now</button>`;
+            } else {
+                // If restored from storage, the file is gone, so disable button
+                buttonHTML = `<button disabled title="File not saved on server">File Missing</button>`;
+            }
+
+            newBookDiv.innerHTML = `
+                <p>${title}</p>
+                ${buttonHTML}
+            `;
+
+            const newReleasesSlider = document.getElementById('slider-2');
+            newReleasesSlider.insertBefore(newBookDiv, newReleasesSlider.firstChild);
+        }
+
+        // 3. STORAGE LOGIC (Saves Titles Only)
+        function saveBookToStorage(title) {
+            // Get existing list or empty array
+            let books = JSON.parse(localStorage.getItem('myUploadedBooks')) || [];
+            books.push(title);
+            localStorage.setItem('myUploadedBooks', JSON.stringify(books));
+        }
+
+        function loadSavedBooks() {
+            let books = JSON.parse(localStorage.getItem('myUploadedBooks')) || [];
+            // Add them back to the list in reverse order (newest first)
+            books.forEach(title => {
+                // Passing 'false' because we don't have the file URL anymore after refresh
+                addBookToDOM(title, null, false);
+            });
+        }
+
+        // 4. SLIDER LOGIC
+        function moveSlider(direction, containerId) {
+            const sliderContainer = document.getElementById(containerId);
+            const scrollAmount = 200;
+            if (direction === 1) {
+                sliderContainer.scrollLeft += scrollAmount;
+            } else {
+                sliderContainer.scrollLeft -= scrollAmount;
+            }
+        }
+    </script>
+</body>
+</html>

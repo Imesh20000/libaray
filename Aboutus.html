@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Features - Online Library Management</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        .webback{
+            width: 100%;
+            min-height: 100vh;
+            background-image: url(image/sky-34536.svg);
+            background-position: center;
+            background-size: cover;
+            padding: 10px 10%;
+            overflow: hidden;
+            opacity: 8;
+            position: absolute;
+        }
+        nav{
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo{
+            width: 140px;
+        }
+        nav ul li{
+            display: inline-block;
+            list-style: none;
+            margin: 10px 15px;
+        }
+        nav ul li a{
+            text-decoration: none;
+            color: #333;
+            font-weight: 400;
+        }
+        .login-btn{
+            text-decoration: none;
+            color: #333;
+            margin-right: 15px;
+            font-weight: 400;
+        }
+        .btn{
+            display: inline-block;
+            text-decoration: none;
+            padding: 14px 40px;
+            color: #fff;
+            background-image: linear-gradient(45deg, #df4881, #c430d7);
+            font-size: 14px;
+            border-radius: 30px;
+            border-top-right-radius: 0;
+            transition: 0.5s;
+        }
+        .content{
+            margin-top: 10%;
+            max-width: 800px;
+        }
+        .content h1{
+            font-size: 50px;
+            color: #222;
+            margin-bottom: 20px;
+        }
+        .content p {
+            margin: 10px 0 30px;
+            color: #333;
+            font-size: 18px;
+            line-height: 1.6;
+            animation-delay: 0.5s;
+        }
+        .content .btn{
+            padding: 15px 80px;
+            font-size: 15px;
+            animation-delay: 1s;
+        }
+        .btn:hover{
+            border-top-right-radius: 30px;
+        }
+        .anim{
+            opacity: 0;
+            transform: translateY(30px);
+            animation: moveup 0.5s linear forwards;
+        }
+        @keyframes moveup{
+            100%{
+                opacity: 1;
+                transform: translateY(0px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="webback">
+        <nav>
+            <img src=".png" class="logo">
+            <ul>
+                <li>
+                    <a href="">Featuters </a></li>
+                    <li><a href="../upload/booksearch.html">Book List</a></li>
+                  <li><a href="../reg/signup.html">New one</a></li>
+                    <li> <a  href="">how it work</a></li>
+                        <li><a href="../about us/Aboutus.html">About Us</a></li>
+            </ul>
+            <div>
+                <a href="../log in/loginpage.html" class="login-btn">Log In</a>
+                <a href="#" class="btn">Download App</a>
+            </div>
+        </nav>
+        <div class="content">
+            <h1 class="anim">Our Vision</h1>
+            <p class="anim">Our vision is to revolutionize the way people access and engage with books, creating a community of readers who are empowered and inspired by the endless possibilities that literature offers.</p>
+            
+            <h1 class="anim">Our Mission</h1>
+            <p class="anim">Our mission is to provide an intuitive and user-friendly online library management system that connects readers with the books they love. We aim to make reading accessible to everyone, promoting literacy and a lifelong love of reading.</p>
+            
+            <h1 class="anim">Our Target</h1>
+            <p class="anim">We target book enthusiasts, students, educators, and anyone who has a passion for reading. Our platform is designed to cater to the needs of all age groups, offering a diverse range of genres and formats to suit every reader's preference.</p>
+        </div>
+    </div>
+</body>
+</html>
